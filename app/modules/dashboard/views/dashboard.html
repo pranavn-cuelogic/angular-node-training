@@ -1,0 +1,27 @@
+<div class="container-fluid paddingTP30" ng-init="userList()">
+    <tab-menu tab-menu-list="subTabMenus"></tab-menu>
+    <div class="paddingTB20 clearfix">
+        <a ui-sref="base.user" class="btn btn-info pull-right" role="button">Add user</a>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <table class="table table-striped">
+                <thead>
+                    <th>Image</th>
+                    <th>Employee Name </th>
+                    <th>Department Name</th>
+                    <th>salary</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="singleUser in getUsers">
+                        <td><img height="100" width="100" src="{{blackSpinner}}" lazy-img="{{singleUser.image}}"></td>
+                        <td>{{singleUser.name}}</td>
+                        <td>{{singleUser.department}}</td>
+                        <td>${{singleUser.salary}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Tab panes -->
