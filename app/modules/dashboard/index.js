@@ -1,2 +1,2 @@
-angular.module('dashboard', ['dashboard.service']);
+angular.module('dashboard', ['dashboard.service', 'employee.service']);
  /*'dashboard.directive'*/

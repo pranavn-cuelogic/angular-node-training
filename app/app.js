@@ -15,10 +15,9 @@
             'base',
             'dashboard',
             'user'
-
         ])
         .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase])
-        .run(['$rootScope', '$state', 'localStorageService', 'dashboardService', handleRoutingValidation]);
+        .run(['$rootScope', '$state', 'localStorageServiceWrapper', 'dashboardService', handleRoutingValidation]);
 
     function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
         $locationProvider.html5Mode({
@@ -28,11 +27,11 @@
         $urlRouterProvider.otherwise('/login');
     }
 
-    function handleRoutingValidation($rootScope, $state, localStorageService, dashboardService) {
+    function handleRoutingValidation($rootScope, $state, localStorageServiceWrapper, dashboardService) {
         $rootScope.$on('$stateChangeStart', 
             function (event, toState, toParams, fromState, fromParams) {
                 $rootScope.currentState = $state;
-                var userStoredInfo = localStorageService.get('ang_userinfo');
+                var userStoredInfo = localStorageServiceWrapper.get('ang_userinfo');
                 var email = (userStoredInfo && userStoredInfo.user_email != '') ? userStoredInfo.user_email : null;
                 var pass = (userStoredInfo && userStoredInfo.user_pass != '') ? userStoredInfo.user_pass : null;
                 is_exist = false,

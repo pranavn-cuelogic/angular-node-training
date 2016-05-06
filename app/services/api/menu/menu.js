@@ -20,23 +20,23 @@ function menuService($http) {
             }, {
                 "name": "Proposals",
                 "class": "proposals",
-                "action": "base.dashboard",
+                "action": "base.proposals",
             }, {
                 "name": "Project",
                 "class": "project",
-                "action": "base.dashboard",
+                "action": "base.project",
             }, {
                 "name": "Data Mapping",
                 "class": "data-mapping",
-                "action": "base.dashboard",
+                "action": "base.mapping",
             }, {
                 "name": "Clients",
                 "class": "clients",
-                "action": "base.dashboard",
+                "action": "base.clients",
             }, {
                 "name": "Data Providers",
                 "class": "data-providers",
-                "action": "base.dashboard",
+                "action": "base.providers",
             }]
         }
     }

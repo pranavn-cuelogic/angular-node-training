@@ -2,7 +2,6 @@ angular.module('dashboard.service', [])
     .factory('dashboardService', ['$http', dashboardService]);
 
 
-
 function dashboardService($http) {
     var service = {};
 

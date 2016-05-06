@@ -1,5 +1,5 @@
 <ul>
-    <li ng-repeat="singleMenu in subTabMenus()">
+    <li ng-repeat="singleMenu in sidebarMenuList" ui-sref-active="active">
         <a ui-sref="{{singleMenu.action}}">{{singleMenu.name}}</a>
     </li>
 </ul>
