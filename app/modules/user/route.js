@@ -16,6 +16,14 @@
                         controller: 'userController'
                     }
                 }
+            }).state('base.edit', {
+                url: '/edit/:user_id',
+                views: {
+                    'content': {
+                        templateUrl: 'app/modules/user/views/add_user.html',
+                        controller: 'userController'
+                    }
+                }
             });
     }
 

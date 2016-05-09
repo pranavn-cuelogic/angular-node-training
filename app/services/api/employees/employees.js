@@ -4,13 +4,7 @@ angular.module('employee.service', [])
 
 function employeeService($http) {
 	var employee = {};
-
-	employee.getEmployeeList = getEmployeeList;
-
-	return employee;
-
-	function getEmployeeList() {
-		var employeeList = {
+	employeeList = {
 			"employeeDetails": [{
 				"id": 0,
 				"name": "Mike",
@@ -40,8 +34,42 @@ function employeeService($http) {
 				"age": 23,
 				"gender": "Female",
 			}]
-		}
+		};
 
-		return employeeList;
+	employee.getEmployeeList = getEmployeeList;
+	employee.getEmployee = getEmployee;
+	employee.updateEmployeeList = updateEmployeeList;
+	employee.deleteEmployee = deleteEmployee;
+
+	return employee;
+
+	function getEmployeeList() {
+		return employeeList = employeeList;
+	}
+
+	function getEmployee(id) {
+		if(id != null) {
+			return employeeList.employeeDetails[id - 1];
+		}
+		
+	}
+
+	function updateEmployeeList(id, data) {
+		var empList = employeeList.employeeDetails;
+		if(id != null && data != null) {
+			empList.splice(id - 1, 1);
+			empList.push(data);
+			return empList;
+		} 
+		return false;
+	}
+
+	function deleteEmployee(id) {
+		var empList = employeeList.employeeDetails;
+		if(id != null) {
+			empList.splice(id, 1);
+			return empList;
+		} 
+		return false;
 	}
 };

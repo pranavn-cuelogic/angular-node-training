@@ -60,7 +60,8 @@
                 }
             }
         );
-
+        
+        $rootScope.employeeArr = [];
     }
 
 })();
