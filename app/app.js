@@ -10,21 +10,23 @@
             'angularLazyImg',
             'ui.bootstrap',
             'localStorage.service',
+            'security.service',
             'config',
             'auth',
             'base',
             'dashboard',
             'user'
         ])
-        .config(['$urlRouterProvider', '$locationProvider', initializeConfigurationPhase])
+        .config(['$urlRouterProvider', '$locationProvider', '$httpProvider', initializeConfigurationPhase])
         .run(['$rootScope', '$state', 'localStorageServiceWrapper', 'dashboardService', handleRoutingValidation]);
 
-    function initializeConfigurationPhase($urlRouterProvider, $locationProvider) {
+    function initializeConfigurationPhase($urlRouterProvider, $locationProvider, $httpProvider) {
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
         });
         $urlRouterProvider.otherwise('/login');
+        $httpProvider.interceptors.push('securityService');
     }
 
     function handleRoutingValidation($rootScope, $state, localStorageServiceWrapper, dashboardService) {
@@ -45,7 +47,6 @@
                     }
                 });
 
-           
                 if(is_exist) {
                     if(toState == 'login' && fromState != null) {
                         $state.transitionTo(fromState);
@@ -54,14 +55,12 @@
                     $state.transitionTo( 'login' );
                     event.preventDefault();
                     console.log('You\'ve been logged out, please log in again!');
-                } 
+                }
                 if(userStoredInfo) {
                     $rootScope.user_name = userStoredInfo.user_name;
                 }
             }
         );
-        
-        $rootScope.employeeArr = [];
     }
 
 })();

@@ -16,6 +16,15 @@
                         controller: 'loginController'
                     }
                 }
+            })
+            .state('logout', {
+                url: '/logout',
+                views: {
+                    '@': {
+                        templateUrl: '',
+                        controller: 'logoutController'
+                    }
+                }
             });
     }
 

@@ -4,23 +4,18 @@
 
     angular
         .module('dashboard')
-        .controller('dashboardController', ['$rootScope', '$scope', '$state', 'dashboardService', 'employeeService', dashboardController]);
+        .controller('dashboardController', ['$rootScope', '$scope', '$state', '$window', 'dashboardService', 'employeeService', dashboardController]);
 
-    function dashboardController($rootScope, $scope, $state, dashboardService, employeeService) {
+    function dashboardController($rootScope, $scope, $state, $window, dashboardService, employeeService) {
         $scope.blackSpinner = 'resource/images/blackSpinner.gif';
-
+        $scope.sortType     = 'name'; // default sort type
+        $scope.sortReverse  = false;  // default sort order
+        // $scope.search   = ''; 
         $scope.userList = function() {
             //calling API and get user list
             $scope.getUsers = dashboardService.getUserList().userDetails;
-            console.log($rootScope);
-            if($rootScope.employeeArr.length <= 0){
-                console.log('true');
-                $scope.getEmployees = employeeService.getEmployeeList().employeeDetails;
-            } else {
-                $scope.getEmployees = $rootScope.employeeArr;
-                console.log('false');
-            }
-            
+            $scope.getEmployees = employeeService.getEmployeeList().employeeDetails;
+                        
             $scope.subTabMenus = [{
                 'tabMenu': 'All',
                 'action': 'dashboard'
@@ -28,7 +23,16 @@
                 'tabMenu': 'Proposals',
                 'action': 'proposals'
             }]
-        }
+        };
+
+        $scope.deleteUser = function(user_id) {
+            if ($window.confirm("Are you sure you want to delete?")) {
+                $scope.result = "Yes";
+                employeeService.deleteEmployee(user_id);
+            } else {
+                $scope.result = "No";
+            }
+        };
     }
 
 })();

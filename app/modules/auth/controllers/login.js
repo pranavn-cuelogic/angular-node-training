@@ -24,6 +24,7 @@
                                     'user_name': value.name
                                 };
                                 localStorageServiceWrapper.set('ang_userinfo', userInfo);
+                                localStorageServiceWrapper.set('authenticated', true);
                                 is_exist = true;
                             }
                         }

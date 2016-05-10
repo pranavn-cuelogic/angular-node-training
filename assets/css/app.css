@@ -178,3 +178,7 @@ footer {
         width: 100%;
     }
 }
+
+.pointer {
+  cursor: pointer;
+}

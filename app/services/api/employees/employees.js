@@ -36,10 +36,11 @@ function employeeService($http) {
 			}]
 		};
 
-	employee.getEmployeeList = getEmployeeList;
-	employee.getEmployee = getEmployee;
+	employee.getEmployeeList 	= getEmployeeList;
+	employee.getEmployee 		= getEmployee;
+	employee.addEmployee 		= addEmployee;
 	employee.updateEmployeeList = updateEmployeeList;
-	employee.deleteEmployee = deleteEmployee;
+	employee.deleteEmployee 	= deleteEmployee;
 
 	return employee;
 
@@ -49,15 +50,23 @@ function employeeService($http) {
 
 	function getEmployee(id) {
 		if(id != null) {
-			return employeeList.employeeDetails[id - 1];
+			return employeeList.employeeDetails[id];
 		}
-		
+	}
+
+	function addEmployee(data) {
+		if(data != null) {
+			var empList = employeeList.employeeDetails;
+			empList.push(data);
+			return empList;
+		}
+		return false;
 	}
 
 	function updateEmployeeList(id, data) {
 		var empList = employeeList.employeeDetails;
 		if(id != null && data != null) {
-			empList.splice(id - 1, 1);
+			empList.splice(id, 1);
 			empList.push(data);
 			return empList;
 		} 
@@ -66,10 +75,10 @@ function employeeService($http) {
 
 	function deleteEmployee(id) {
 		var empList = employeeList.employeeDetails;
-		if(id != null) {
-			empList.splice(id, 1);
-			return empList;
-		} 
-		return false;
-	}
+        if (!isNaN(id) && typeof(id) == "number") {
+        	empList.splice(id, 1);
+        	return empList;
+        }
+        return false;
+    }
 };
