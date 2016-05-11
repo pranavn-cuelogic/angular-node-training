@@ -11,28 +11,28 @@ function employeeService($http) {
 				"address": "Developer",
 				"email": "mike@yopmail.com",
 				"age": 25,
-				"gender": "Male",
+				"gender": 0,
 			},{
 				"id": 1,
 				"name": "John",
 				"address": "Developer",
 				"email": "john@yopmail.com",
 				"age": 24,
-				"gender": "Male",
+				"gender": 0,
 			},{
 				"id": 2,
 				"name": "Genesis",
 				"address": "Developer",
 				"email": "genesis@yopmail.com",
 				"age": 21,
-				"gender": "Female",
+				"gender": 1,
 			},{
 				"id": 3,
 				"name": "Anna",
 				"address": "Developer",
 				"email": "anna@yopmail.com",
 				"age": 23,
-				"gender": "Female",
+				"gender": 1,
 			}]
 		};
 
@@ -75,8 +75,9 @@ function employeeService($http) {
 
 	function deleteEmployee(id) {
 		var empList = employeeList.employeeDetails;
-        if (!isNaN(id) && typeof(id) == "number") {
+        if (id != null) {
         	empList.splice(id, 1);
+        	console.log(empList);
         	return empList;
         }
         return false;

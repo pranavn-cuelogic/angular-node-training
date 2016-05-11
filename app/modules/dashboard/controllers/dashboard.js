@@ -10,7 +10,7 @@
         $scope.blackSpinner = 'resource/images/blackSpinner.gif';
         $scope.sortType     = 'name'; // default sort type
         $scope.sortReverse  = false;  // default sort order
-        // $scope.search   = ''; 
+        $scope.search   = ''; 
         $scope.userList = function() {
             //calling API and get user list
             $scope.getUsers = dashboardService.getUserList().userDetails;
@@ -26,13 +26,16 @@
         };
 
         $scope.deleteUser = function(user_id) {
-            if ($window.confirm("Are you sure you want to delete?")) {
-                $scope.result = "Yes";
-                employeeService.deleteEmployee(user_id);
-            } else {
-                $scope.result = "No";
-            }
+            employeeService.deleteEmployee(user_id);
+            // using $scope.$apply will tell application that an asynchronous event just occurred.
+            $scope.$apply();
         };
+
+        $scope.editUser = function(user_id) {
+            if(user_id != null) {
+                $state.transitionTo('base.edit', {'user_id': user_id});
+            }
+        }
     }
 
 })();

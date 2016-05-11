@@ -182,3 +182,7 @@ footer {
 .pointer {
   cursor: pointer;
 }
+
+.bg_blue {
+    background: cornflowerblue !important;
+}

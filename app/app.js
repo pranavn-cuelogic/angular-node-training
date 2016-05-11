@@ -11,6 +11,7 @@
             'ui.bootstrap',
             'localStorage.service',
             'security.service',
+            'filters',
             'config',
             'auth',
             'base',
