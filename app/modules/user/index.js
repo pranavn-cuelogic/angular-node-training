@@ -1,1 +1,1 @@
-angular.module('user', ['employee.service']);
+angular.module('user', ['employee.service', 'custom.directive']);

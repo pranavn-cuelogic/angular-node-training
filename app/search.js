@@ -1,12 +1,18 @@
 angular.module('filters', [])
-    .filter("gender", function() {
+    .filter("getGender", function() {
         return function(data) {
             var res = (data == 0) ? "Male" : "Female";
-            console.log(res);
             return res;
         }
+    })
+    .filter('customSearch', function() {
+        return function(data) {
+            console.log(data);
+            angular.forEach(data, function(item) {
+                console.log(item);
+            });
+        }
     });
-    // .filter('customSearch')
 
 
 

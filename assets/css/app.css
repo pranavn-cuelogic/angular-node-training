@@ -186,3 +186,7 @@ footer {
 .bg_blue {
     background: cornflowerblue !important;
 }
+
+.mrgn-right-15 {
+    margin-right: 15px;
+}

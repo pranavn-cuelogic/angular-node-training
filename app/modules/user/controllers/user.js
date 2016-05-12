@@ -3,15 +3,18 @@
 
     angular
         .module('user')
-        .controller('userController', ['$rootScope', '$scope', '$stateParams', '$state', 'employeeService', userController]);
+        .controller('userController', ['$rootScope', '$scope', '$stateParams', '$state', '$timeout', 'employeeService', userController]);
 
-    function userController($rootScope, $scope, $stateParams, $state, employeeService) {
+    function userController($rootScope, $scope, $stateParams, $state, $timeout, employeeService) {
         $scope.user_id = $stateParams.user_id;
         var is_edit = ($scope.user_id != null) ? true : false;
+        $scope.saveBtnTxt = 'Save';
         $scope.setTitle = (is_edit) ? 'Edit user' : 'Add User';
         $scope.getEmployees = (is_edit) ? employeeService.getEmployee($scope.user_id) : null;
         $scope.copyData = (is_edit) ? angular.copy($scope.getEmployees) : null;
+
         $scope.userInfo = function() {
+
             var userArr =  {
                 'name': $scope.getEmployees.name,
                 'address': $scope.getEmployees.address,
@@ -19,15 +22,17 @@
                 'age': $scope.getEmployees.age,
                 'gender': $scope.getEmployees.gender,
             };
-        	if(is_edit) {
-                userArr['id'] = $scope.user_id;
-                $scope.updateUser = employeeService.updateEmployeeList($scope.user_id, userArr).employeeDetails;
-            } else {
-                userArr['id'] = parseInt(employeeService.getEmployeeList().employeeDetails.length);
-                $scope.updateUser = employeeService.addEmployee(userArr).employeeDetails;
-            }
 
-        $state.transitionTo('base.dashboard');
+            $timeout(function() {
+                if(is_edit) {
+                    userArr['id'] = $scope.user_id;
+                    $scope.updateUser = employeeService.updateEmployeeList($scope.user_id, userArr).employeeDetails;
+                } else {
+                    userArr['id'] = parseInt(employeeService.getEmployeeList().employeeDetails.length);
+                    $scope.updateUser = employeeService.addEmployee(userArr).employeeDetails;
+                }
+                $state.transitionTo('base.dashboard');    
+            }, 3000);
         };
 
         $scope.cancelEdit = function() {

@@ -15,7 +15,7 @@
 
                 if (localStorageServiceWrapper.get('authenticated')) {
                     config.headers['authorization'] = localStorageServiceWrapper.get('authenticated');
-                    $location.path('/dashboard');
+                    // $location.path('/dashboard');
                 } else {
                     $location.path('/login');
                 }
