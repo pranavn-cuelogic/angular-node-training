@@ -89,7 +89,7 @@ function notifyMe(result) {
 // fs (file System)
 
 // Asynchronous read
-FileSystem.readFile('test.txt', function(err, data) {
+FileSystem.open('test.txt', 'w+', function(err, data) {
 	console.log('========Asynchronous File Read========');
 	if(err) {
 		printMsg(false, 0,err);
