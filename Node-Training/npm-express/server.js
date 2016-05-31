@@ -1,123 +1,77 @@
 'use strict'
 
-require('./config.js');
-require('./routes.js');
+// global base directory path
+global.base = __dirname + '/';
 
-// Async using waterfall
-Async.waterfall([getValue, multiply], finalCallBack);
+var	hapi = require('hapi'),
+	config = require(base + 'config/config.js'),
+	db = require(base + 'config/database.js'),
+	good = require('good'),
+	inert = require('inert'),
+	server = new hapi.Server(),
+	routes = require(base + '/routes/user/user_routes.js'),
+	hashKey = config.env.hashKey;
 
-function getValue(callback) {
-	setTimeout(function(err, result) {
-		if(err) {
-			callback(new Error('Failed!: ' + err));
-			return;
+server.connection({
+	host: 'localhost',
+	port: 3000
+});
+
+var validate = function (request, decodedToken, callback) {
+
+	console.log(request);
+	console.log(decodedToken);
+	console.log(callback);
+
+    var error,
+        credentials = users[decodedToken.accountId] || {};
+
+    if (!credentials) {
+        return callback(error, false, credentials);
+    }
+
+    return callback(error, true, credentials);
+};
+
+server.register([{
+	register: good,
+	options: {
+		reporters: {
+			console: [{
+				module: 'good-squeeze',
+				name: 'Squeeze',
+				args:[{
+					response: '*',
+					log: '*'
+				}]
+			},{
+				module: 'good-console',
+			}, 'stdout']
 		}
-		callback(null, 2);
-	}, 0);
-}
-
-function multiply(x, callback) {
-	if(x == 2) {
-		callback(null, x * x);
-		return;
 	}
-	callback(new Error('Failed again'));	
-	
-}
-
-function finalCallBack(err, result) {
+},{
+	register: inert,
+},{
+	register: require('hapi-auth-jwt'),
+}], (err) => {
 	if(err) {
-		printMsg(false, 0, 'async request has some error!!!' + err);
-	} else {
-		printMsg(true, 1, 'Async has been worked successfully & output is: ' + result);	
+		throw err;
 	}
-	
-}
 
+	server.auth.strategy('token', 'jwt', {
+        key: hashKey,
+        validateFunc: validate,
+        verifyOptions: { algorithms: [ 'HS256' ] }  // only allow HS256 algorithm
+    });
 
-// Async using parallel
-Async.parallel([add, sub], result);
+    server.route(routes);
 
-function add(cb) {
-	setTimeout(function(err, result) {
+	server.start((err) => {
 		if(err) {
-			cb(new Error(err));
-			return;
+			throw err;
 		}
-		cb(null, 1+1);
-	}, 1000);
-}
+		console.log('info', 'Server running at:', server.info.uri);
+	});
 
-
-function sub(cb) {
-	setTimeout(function(err, result) {
-		if(err) {
-			cb(new Error(err));
-			return;
-		}
-		cb(null, 10-4);
-	}, 1000);
-}
-
-function result(err, result) {
-	if(err) {
-		printMsg(false, 'Error: '+ err);
-	} else {
-		printMsg(true, 0, result);
-		emitter.emit('emitted', result);
-	}
-}
-
-
-// Event Emitter.
-emitter.on('emitted', notifyUser);
-emitter.on('emitted', notifyMe);
-
-function notifyUser(result) {
-	console.log('hello, event has been emitted! ' + 'Addition: ' + result[0] + ' ' + 'Substaction: ' + result[1]);
-}
-
-function notifyMe(result) {
-	console.log('hello, event has been emitted!');
-}
-
-
-// Bluebird.
-
-
-
-// fs (file System)
-
-// Asynchronous read
-FileSystem.readFile('test.txt', function(err, data) {
-	console.log('========Asynchronous File Read========');
-	if(err) {
-		printMsg(false, 0,err);
-		return;
-	}
-	printMsg(true, 1, data);
-})
-
-// Synchronous read
-try {
-	var file = FileSystem.readFileSync('tesst.txt');
-	console.log('========Synchronous File Read========');
-	printMsg(true, 1, file);
-} catch(e) {
-	console.log(e);
-}
-
-
-
-function printMsg(status, isFile, msgData) {
-	console.log('\n-----------------------------------------------');
-	if(status) {
-		if(isFile) {
-			console.log(msgData.toString());		
-		} else {
-			console.log(msgData);	
-		}
-	}
-	console.log('-----------------------------------------------\n');
-}
+});
 
