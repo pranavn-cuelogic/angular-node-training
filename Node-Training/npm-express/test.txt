@@ -1,3 +1,4 @@
 Pipes all events from source emitter onto target emitter (all events from source emitter will be emitted also on target emitter, but not other way).
 Returns pipe object which exposes pipe.close function. Invoke it to close configured pipe.
 It works internally by redefinition of emit method, if in your interface this method is referenced differently, provide its name (or symbol) with third argument.
+
